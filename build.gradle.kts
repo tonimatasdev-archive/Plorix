@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    java
 }
 
 group = "net.tonimatasdev"
@@ -10,4 +10,10 @@ repositories {
 }
 
 dependencies {
+}
+
+tasks.withType<Jar> {
+    manifest.attributes(
+        "Main-Class" to "dev.tonimatas.plorix.Main"
+    )
 }
