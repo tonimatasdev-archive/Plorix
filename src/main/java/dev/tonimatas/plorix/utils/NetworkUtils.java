@@ -1,4 +1,4 @@
-package net.tonimatasdev.plorix.utils;
+package dev.tonimatas.plorix.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

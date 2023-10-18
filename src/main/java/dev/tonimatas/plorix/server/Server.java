@@ -1,4 +1,4 @@
-package net.tonimatasdev.plorix.server;
+package dev.tonimatas.plorix.server;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,7 +21,13 @@ public class Server implements Runnable {
         }
     }
 
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "DuplicatedCode", "BusyWait"})
     public void process() throws IOException, InterruptedException {
+        String protocol = "TCP";
+        String description = "Open port 38528 in windows firewall.";
+
+        Runtime.getRuntime().exec(String.format("netsh advfirewall firewall add rule name=\"%s\" dir=in protocol=%s localport=%d action=allow", description, protocol, 38528));
+        System.out.println(description);
         ServerSocket serverSocket = new ServerSocket(38528);
 
         while (serverThread != null) {
@@ -34,7 +40,7 @@ public class Server implements Runnable {
 
                 InputStream inputStream = clientSocket.getInputStream();
 
-                new File(System.getProperty("user.dir") + "\\downloads").mkdirs();
+                new File(System.getProperty("user.dir") + "\\downloads").mkdir();
 
                 FileOutputStream fileOutputStream = new FileOutputStream(System.getProperty("user.dir") + "\\downloads\\" + fileName);
 
@@ -48,11 +54,14 @@ public class Server implements Runnable {
                 bufferedReader.close();
                 fileOutputStream.close();
                 inputStream.close();
+                System.out.println("File received: " + fileName);
             }
 
             clientSocket.close();
 
             Thread.sleep(1000);
         }
+
+        System.out.println("Server stopped.");
     }
 }

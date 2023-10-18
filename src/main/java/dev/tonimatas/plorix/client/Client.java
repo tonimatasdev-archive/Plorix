@@ -1,16 +1,17 @@
-package net.tonimatasdev.plorix.client;
+package dev.tonimatas.plorix.client;
 
 import java.io.*;
 import java.net.Socket;
 
 public class Client {
-    public void startClient() {
-        sendFile("0.0.0.0", new File(System.getProperty("user.dir") + "\\run\\client\\test.mp4"));
+    public void startClient(String ip, String path) {
+        sendFile(ip, new File(path));
     }
 
     public void sendFile(String ip, File file) {
         try {
             Socket socket = new Socket(ip, 38528);
+            System.out.println("Connected to server: " + ip);
 
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(file.getName());
@@ -28,6 +29,8 @@ public class Client {
             printWriter.close();
             fileInputStream.close();
             outputStream.close();
+
+            System.out.println("File sent: " + file.getName());
         } catch (IOException e) {
             System.out.println("Error on send file.");
         }
